@@ -19,10 +19,24 @@ import java.util.List;
 public class CarouselView extends ViewPager {
     public CarouselView(Context context) {
         super(context);
+        init();
     }
 
     public CarouselView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
+    }
+
+    private void init() {
+        this.setPageTransformer(false, new CustomPageTransformer(getContext()));
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int w = getMeasuredWidth();
+        setPageMargin((int) (-w / 1.25));
+
     }
 
     public static class CarouselViewAdapter extends PagerAdapter {
@@ -30,7 +44,7 @@ public class CarouselView extends ViewPager {
         List<Integer> items = new ArrayList<>();
         Context context;
 
-        public CarouselViewAdapter(Context context, List<Integer> items){
+        public CarouselViewAdapter(Context context, List<Integer> items) {
             this.context = context;
             this.items = items;
         }
@@ -42,7 +56,7 @@ public class CarouselView extends ViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view = LayoutInflater.from(context).inflate(R.layout.page,null);
+            View view = LayoutInflater.from(context).inflate(R.layout.page, null);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
             iv.setImageResource(items.get(position));
             view.setTag(position);
