@@ -45,6 +45,7 @@ public class CarouselView extends ViewPager {
             View view = LayoutInflater.from(context).inflate(R.layout.page,null);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
             iv.setImageResource(items.get(position));
+            view.setTag(position);
             container.addView(view);
 
             return view;

@@ -2,6 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="viewpager_margin">-128dp</dimen>
-    <dimen name="viewpager_margin_fix">64dp</dimen>
+    <dimen name="viewpager_margin">-64dp</dimen>
+    <dimen name="viewpager_margin_fix">32dp</dimen>
 </resources>

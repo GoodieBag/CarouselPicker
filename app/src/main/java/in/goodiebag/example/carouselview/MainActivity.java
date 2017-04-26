@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
         CarouselView.CarouselViewAdapter adapter = new CarouselView.CarouselViewAdapter(this, items);
         view.setOffscreenPageLimit(3);
-        view.setPageTransformer(false, new CustomPageTransformer(this));
         view.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
+        view.setPageTransformer(false, new CustomPageTransformer(this));
         view.setClipChildren(false);
         view.setAdapter(adapter);
     }
