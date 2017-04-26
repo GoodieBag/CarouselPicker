@@ -60,5 +60,6 @@ public class CarouselView extends ViewPager {
         public boolean isViewFromObject(View view, Object object) {
             return (view == object);
         }
+
     }
 }
