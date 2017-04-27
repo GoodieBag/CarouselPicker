@@ -1,1 +1,1 @@
-include ':app', ':carouselview'
+include ':app', ':carouselpicker'

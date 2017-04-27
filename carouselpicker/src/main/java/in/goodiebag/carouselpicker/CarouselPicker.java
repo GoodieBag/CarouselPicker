@@ -1,6 +1,8 @@
-package in.goodiebag.carouselview;
+package in.goodiebag.carouselpicker;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -16,19 +18,20 @@ import java.util.List;
  * Created by pavan on 25/04/17.
  */
 
-public class CarouselView extends ViewPager {
-    public CarouselView(Context context) {
-        super(context);
-        init();
+public class CarouselPicker extends ViewPager {
+    public CarouselPicker(Context context) {
+        this(context, null);
     }
 
-    public CarouselView(Context context, AttributeSet attrs) {
+    public CarouselPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     private void init() {
         this.setPageTransformer(false, new CustomPageTransformer(getContext()));
+        this.setClipChildren(false);
+        this.setFadingEdgeLength(0);
     }
 
     @Override
@@ -39,14 +42,25 @@ public class CarouselView extends ViewPager {
 
     }
 
+    @Override
+    public void setAdapter(PagerAdapter adapter) {
+        super.setAdapter(adapter);
+        this.setOffscreenPageLimit(adapter.getCount());
+    }
+
     public static class CarouselViewAdapter extends PagerAdapter {
 
         List<Integer> items = new ArrayList<>();
         Context context;
+        int drawable;
 
-        public CarouselViewAdapter(Context context, List<Integer> items) {
+        public CarouselViewAdapter(Context context, List<Integer> items, @DrawableRes int drawable) {
             this.context = context;
             this.items = items;
+            this.drawable = drawable;
+            if(this.drawable == 0){
+                this.drawable = R.layout.page;
+            }
         }
 
         @Override
@@ -56,12 +70,11 @@ public class CarouselView extends ViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view = LayoutInflater.from(context).inflate(R.layout.page, null);
+            View view = LayoutInflater.from(context).inflate(this.drawable, null);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
             iv.setImageResource(items.get(position));
             view.setTag(position);
             container.addView(view);
-
             return view;
         }
 
@@ -76,4 +89,5 @@ public class CarouselView extends ViewPager {
         }
 
     }
+
 }

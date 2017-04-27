@@ -1,4 +1,4 @@
-package in.goodiebag.example.carouselview;
+package in.goodiebag.example;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CarouselView.iml" filepath="$PROJECT_DIR$/CarouselView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CarouselPicker.iml" filepath="$PROJECT_DIR$/CarouselPicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/carouselview/carouselview.iml" filepath="$PROJECT_DIR$/carouselview/carouselview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/carouselpicker/carouselpicker.iml" filepath="$PROJECT_DIR$/carouselpicker/carouselpicker.iml" />
     </modules>
   </component>
 </project>

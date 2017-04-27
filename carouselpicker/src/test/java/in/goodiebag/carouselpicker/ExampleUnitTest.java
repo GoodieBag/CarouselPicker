@@ -1,4 +1,4 @@
-package in.goodiebag.carouselview;
+package in.goodiebag.carouselpicker;
 
 import org.junit.Test;
 

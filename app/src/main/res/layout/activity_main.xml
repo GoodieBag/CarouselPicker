@@ -4,9 +4,9 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.goodiebag.example.carouselview.MainActivity">
+    tools:context="in.goodiebag.example.MainActivity">
 
-    <in.goodiebag.carouselview.CarouselView
+    <in.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/view"
         android:background="#CCC"
         android:layout_centerInParent="true"
