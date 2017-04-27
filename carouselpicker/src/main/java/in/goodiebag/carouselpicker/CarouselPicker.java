@@ -1,11 +1,13 @@
 package in.goodiebag.carouselpicker;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +21,48 @@ import java.util.List;
  */
 
 public class CarouselPicker extends ViewPager {
+    private final float DENSITY = getContext().getResources().getDisplayMetrics().density;
+    private int itemsVisible = 3;
+    private int itemWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private float divisor;
+
     public CarouselPicker(Context context) {
         this(context, null);
     }
 
     public CarouselPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAttributes(context, attrs);
         init();
+    }
+
+    private void initAttributes(Context context, AttributeSet attrs) {
+
+        if (attrs != null) {
+            final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CarouselPicker);
+            itemsVisible = array.getInteger(R.styleable.CarouselPicker_items_visible, itemsVisible);
+            switch (itemsVisible) {
+                case 3:
+                    TypedValue threeValue = new TypedValue();
+                    getResources().getValue(R.dimen.three_items, threeValue, true);
+                    divisor = threeValue.getFloat();
+                    break;
+                case 5:
+                    TypedValue fiveValue = new TypedValue();
+                    getResources().getValue(R.dimen.five_items, fiveValue, true);
+                    divisor = fiveValue.getFloat();
+                    break;
+                case 7:
+                    TypedValue sevenValue = new TypedValue();
+                    getResources().getValue(R.dimen.seven_items, sevenValue, true);
+                    divisor = sevenValue.getFloat();
+                    break;
+                default:
+                    divisor = 3;
+                    break;
+            }
+            array.recycle();
+        }
     }
 
     private void init() {
@@ -38,7 +75,7 @@ public class CarouselPicker extends ViewPager {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int w = getMeasuredWidth();
-        setPageMargin((int) (-w / 1.25));
+        setPageMargin((int) (-w / divisor));
 
     }
 
@@ -58,7 +95,7 @@ public class CarouselPicker extends ViewPager {
             this.context = context;
             this.items = items;
             this.drawable = drawable;
-            if(this.drawable == 0){
+            if (this.drawable == 0) {
                 this.drawable = R.layout.page;
             }
         }

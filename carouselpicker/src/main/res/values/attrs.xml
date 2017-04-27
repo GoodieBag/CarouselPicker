@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CarouselPicker">
+        <attr name="items_visible" />
+    </declare-styleable>
+    <attr name="items_visible" format="enum">
+        <enum name="three" value="3" />
+        <enum name="five" value="5" />
+        <enum name="seven" value="7" />
+    </attr>
+</resources>

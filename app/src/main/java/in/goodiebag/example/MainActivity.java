@@ -11,6 +11,7 @@ import in.goodiebag.example.carouselview.R;
 
 public class MainActivity extends AppCompatActivity {
     CarouselPicker carouselPicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
