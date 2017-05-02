@@ -1,8 +1,9 @@
 # Carousel Picker
 
  A Carousel picker library for android which supports both text and icons . :pouting_cat:
+![alt tag](https://raw.githubusercontent.com/GoodieBag/CarouselPicker/master/gif/gif_image.gif)        ![alt tag](https://raw.githubusercontent.com/GoodieBag/CarouselPicker/master/gif/gif_text.gif) ![alt tag](https://raw.githubusercontent.com/GoodieBag/CarouselPicker/master/gif/gif_mix.gif)
  
- ## Gradle Dependency
+## Gradle Dependency
 
 Add this in your root build.gradle file at the end of repositories:
 ```java
