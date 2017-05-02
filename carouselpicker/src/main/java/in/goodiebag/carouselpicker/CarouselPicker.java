@@ -73,11 +73,11 @@ public class CarouselPicker extends ViewPager {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         int height = 0;
-        for(int i = 0; i < getChildCount(); i++) {
+        for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             int h = child.getMeasuredHeight();
-            if(h > height) height = h;
+            if (h > height) height = h;
         }
 
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
@@ -132,8 +132,8 @@ public class CarouselPicker extends ViewPager {
                     iv.setVisibility(GONE);
                     tv.setVisibility(VISIBLE);
                     tv.setText(pickerItem.getText());
-                    int textSize = ((TextItem)pickerItem).getTextSize();
-                    if(textSize != 0) {
+                    int textSize = ((TextItem) pickerItem).getTextSize();
+                    if (textSize != 0) {
                         tv.setTextSize(dpToPx(((TextItem) pickerItem).getTextSize()));
                     }
                 }
@@ -153,11 +153,10 @@ public class CarouselPicker extends ViewPager {
             return (view == object);
         }
 
-        private  int dpToPx(int dp) {
+        private int dpToPx(int dp) {
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
             return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         }
-
     }
 
     /**
@@ -179,6 +178,7 @@ public class CarouselPicker extends ViewPager {
     public static class TextItem implements PickerItem {
         private String text;
         private int textSize;
+
         public TextItem(String text, int textSize) {
             this.text = text;
             this.textSize = textSize;
