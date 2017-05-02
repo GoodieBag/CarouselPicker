@@ -71,6 +71,7 @@ public class CarouselPicker extends ViewPager {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
         int height = 0;
         for(int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
@@ -80,10 +81,11 @@ public class CarouselPicker extends ViewPager {
         }
 
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int w = getMeasuredWidth();
         setPageMargin((int) (-w / divisor));
+
 
     }
 
@@ -120,6 +122,7 @@ public class CarouselPicker extends ViewPager {
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
             TextView tv = (TextView) view.findViewById(R.id.tv);
             PickerItem pickerItem = items.get(position);
+            iv.setVisibility(VISIBLE);
             if (pickerItem.hasDrawable()) {
                 iv.setVisibility(VISIBLE);
                 tv.setVisibility(GONE);
