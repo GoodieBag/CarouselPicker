@@ -2,6 +2,7 @@ package in.goodiebag.carouselpicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -100,6 +101,7 @@ public class CarouselPicker extends ViewPager {
         List<PickerItem> items = new ArrayList<>();
         Context context;
         int drawable;
+        int textColor = 0;
 
         public CarouselViewAdapter(Context context, List<PickerItem> items, int drawable) {
             this.context = context;
@@ -132,6 +134,9 @@ public class CarouselPicker extends ViewPager {
                     iv.setVisibility(GONE);
                     tv.setVisibility(VISIBLE);
                     tv.setText(pickerItem.getText());
+                    if(textColor != 0){
+                        tv.setTextColor(textColor);
+                    }
                     int textSize = ((TextItem) pickerItem).getTextSize();
                     if (textSize != 0) {
                         tv.setTextSize(dpToPx(((TextItem) pickerItem).getTextSize()));
@@ -141,6 +146,14 @@ public class CarouselPicker extends ViewPager {
             view.setTag(position);
             container.addView(view);
             return view;
+        }
+
+        public int getTextColor() {
+            return textColor;
+        }
+
+        public void setTextColor(@ColorInt int textColor) {
+            this.textColor = textColor;
         }
 
         @Override

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mixItems.add(new CarouselPicker.TextItem("hi", 20));
 
         CarouselPicker.CarouselViewAdapter mixAdapter = new CarouselPicker.CarouselViewAdapter(this, mixItems, 0);
+        mixAdapter.setTextColor(getResources().getColor(R.color.colorPrimary));
         mixCarousel.setAdapter(mixAdapter);
 
         imageCarousel.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
