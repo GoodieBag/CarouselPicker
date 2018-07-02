@@ -19,7 +19,7 @@ allprojects {
 Add the dependency : 
 ```java
 dependencies {
-	        compile 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
+	        implementation 'com.github.GoodieBag:CarouselPicker:v1.1'
 	}
 ```
 Sync the gradle and that's it! :+1:
@@ -80,6 +80,9 @@ mixItems.add(new CarouselPicker.TextItem("hi", 20));
 CarouselPicker.CarouselViewAdapter mixAdapter = new CarouselPicker.CarouselViewAdapter(this, mixItems, 0);
 carouselPicker.setAdapter(mixAdapter);
 ```
+
+### Decorations :
+- Text color for text items can be set using ```adapter.setTextColor(colorInt)```
 
 ## Listeners :
 ```java
