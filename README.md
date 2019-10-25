@@ -12,17 +12,16 @@
 Add this in your root build.gradle file at the end of repositories:
 ```java
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 Add the dependency : 
 ```java
 dependencies {
-	        implementation 'com.github.GoodieBag:CarouselPicker:v1.1'
-	}
+    implementation 'com.github.GoodieBag:CarouselPicker:v1.1'
+}
 ```
 Sync the gradle and that's it! :+1:
 
