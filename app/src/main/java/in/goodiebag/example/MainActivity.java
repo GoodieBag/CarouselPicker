@@ -1,7 +1,7 @@
 package in.goodiebag.example;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
-import in.goodiebag.example.R;
 
 public class MainActivity extends AppCompatActivity {
     CarouselPicker imageCarousel, textCarousel, mixCarousel;
@@ -19,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageCarousel = (CarouselPicker) findViewById(R.id.imageCarousel);
-        textCarousel = (CarouselPicker) findViewById(R.id.textCarousel);
-        mixCarousel = (CarouselPicker) findViewById(R.id.mixCarousel);
-        tvSelected = (TextView) findViewById(R.id.tvSelectedItem);
+        imageCarousel = findViewById(R.id.imageCarousel);
+        textCarousel = findViewById(R.id.textCarousel);
+        mixCarousel = findViewById(R.id.mixCarousel);
+        tvSelected = findViewById(R.id.tvSelectedItem);
 
         List<CarouselPicker.PickerItem> imageItems = new ArrayList<>();
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
