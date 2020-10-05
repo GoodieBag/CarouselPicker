@@ -2,6 +2,7 @@ package in.goodiebag.carouselpicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import androidx.annotation.DrawableRes;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +24,8 @@ import java.util.List;
  */
 
 public class CarouselPicker extends ViewPager {
+    public static int NOT_SPECIFIED;
+
     public enum Mode {
         HORIZONTAL,
         VERTICAL
@@ -94,11 +96,10 @@ public class CarouselPicker extends ViewPager {
     }
 
     public static class CarouselViewAdapter extends PagerAdapter {
-
-        List<PickerItem> items = new ArrayList<>();
+        List<PickerItem> items;
         Context context;
         int drawable;
-        int textColor = 0;
+        int textColor = NOT_SPECIFIED;
 
         public CarouselViewAdapter(Context context, List<PickerItem> items, int drawable) {
             this.context = context;
@@ -118,25 +119,42 @@ public class CarouselPicker extends ViewPager {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = LayoutInflater.from(context).inflate(this.drawable, null);
-            ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            TextView tv = (TextView) view.findViewById(R.id.tv);
+            ImageView iv = view.findViewById(R.id.iv);
+            TextView tv = view.findViewById(R.id.tv);
             PickerItem pickerItem = items.get(position);
             iv.setVisibility(VISIBLE);
             if (pickerItem.hasDrawable()) {
                 iv.setVisibility(VISIBLE);
                 tv.setVisibility(GONE);
                 iv.setImageResource(pickerItem.getDrawable());
+
+                if (pickerItem.getColor() != NOT_SPECIFIED) {
+                    iv.setColorFilter(pickerItem.getColor());
+                }
             } else {
                 if (pickerItem.getText() != null) {
                     iv.setVisibility(GONE);
                     tv.setVisibility(VISIBLE);
-                    tv.setText(pickerItem.getText());
-                    if(textColor != 0){
-                        tv.setTextColor(textColor);
+
+                    TextItem textItem = (TextItem) pickerItem;
+                    tv.setText(textItem.getText());
+
+                    int color = textColor;
+
+                    if (textItem.getColor() != NOT_SPECIFIED) {
+                        color = textItem.getColor();
                     }
-                    int textSize = ((TextItem) pickerItem).getTextSize();
-                    if (textSize != 0) {
+
+                    if (color != NOT_SPECIFIED) {
+                        tv.setTextColor(color);
+                    }
+
+                    if (textItem.getTextSize() != 0) {
                         tv.setTextSize(dpToPx(((TextItem) pickerItem).getTextSize()));
+                    }
+
+                    if (textItem.getFont() != null && textItem.getFontStyle() != null) {
+                        tv.setTypeface(textItem.getFont(), textItem.getFontStyle().ordinal());
                     }
                 }
             }
@@ -174,28 +192,64 @@ public class CarouselPicker extends ViewPager {
      * The picker only accepts items in the form of PickerItem.
      */
     public interface PickerItem {
+        boolean hasDrawable();
+
         String getText();
 
         @DrawableRes
         int getDrawable();
 
-        boolean hasDrawable();
+        @ColorInt
+        int getColor();
     }
 
     /**
      * A PickerItem which supports text.
      */
     public static class TextItem implements PickerItem {
+        public enum FontStyle {
+            NORMAL,
+            BOLD,
+            ITALIC,
+            BOLD_ITALIC
+        }
+
         private String text;
         private int textSize;
+        private int color = NOT_SPECIFIED;
+        private Typeface font;
+        private FontStyle fontStyle;
 
         public TextItem(String text, int textSize) {
             this.text = text;
             this.textSize = textSize;
         }
 
-        public String getText() {
-            return text;
+        public TextItem(String text, int textSize, @ColorInt int color) {
+            this(text, textSize);
+            this.color = color;
+        }
+
+        public TextItem(String text, int textSize, Typeface font, FontStyle style) {
+            this(text, textSize);
+            this.font = font;
+            this.fontStyle = style;
+        }
+
+        public TextItem(String text, int textSize, @ColorInt int color, Typeface font, FontStyle style) {
+            this(text, textSize, color);
+            this.font = font;
+            this.fontStyle = style;
+        }
+
+        public String getText() { return text; }
+        public int getTextSize() { return textSize; }
+        public Typeface getFont() { return font; }
+        public FontStyle getFontStyle() { return fontStyle; }
+
+        @Override
+        public boolean hasDrawable() {
+            return false;
         }
 
         @Override
@@ -204,17 +258,7 @@ public class CarouselPicker extends ViewPager {
         }
 
         @Override
-        public boolean hasDrawable() {
-            return false;
-        }
-
-        public int getTextSize() {
-            return textSize;
-        }
-
-        public void setTextSize(int textSize) {
-            this.textSize = textSize;
-        }
+        public int getColor() { return color; }
     }
 
     /**
@@ -223,9 +267,15 @@ public class CarouselPicker extends ViewPager {
     public static class DrawableItem implements PickerItem {
         @DrawableRes
         private int drawable;
+        private int color = NOT_SPECIFIED;
 
         public DrawableItem(@DrawableRes int drawable) {
             this.drawable = drawable;
+        }
+
+        public DrawableItem(@DrawableRes int drawable, @ColorInt int color) {
+            this(drawable);
+            this.color = color;
         }
 
         @Override
@@ -237,6 +287,9 @@ public class CarouselPicker extends ViewPager {
         public int getDrawable() {
             return drawable;
         }
+
+        @Override
+        public int getColor() { return color; }
 
         @Override
         public boolean hasDrawable() {

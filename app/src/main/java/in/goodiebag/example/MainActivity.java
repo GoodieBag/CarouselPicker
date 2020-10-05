@@ -1,9 +1,11 @@
 package in.goodiebag.example;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +27,26 @@ public class MainActivity extends AppCompatActivity {
 
         List<CarouselPicker.PickerItem> imageItems = new ArrayList<>();
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
-        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i2));
+        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i2, getResources().getColor(android.R.color.holo_red_light)));
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i3));
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i4));
         CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, imageItems, 0);
         imageCarousel.setAdapter(imageAdapter);
 
         List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
-        textItems.add(new CarouselPicker.TextItem("hi", 20));
-        textItems.add(new CarouselPicker.TextItem("hi", 20));
-        textItems.add(new CarouselPicker.TextItem("hi", 20));
+        textItems.add(new CarouselPicker.TextItem("hi", 20,
+                getResources().getColor(android.R.color.holo_blue_bright), Typeface.MONOSPACE,
+                CarouselPicker.TextItem.FontStyle.BOLD_ITALIC));
+        textItems.add(new CarouselPicker.TextItem("hi", 20,
+                getResources().getColor(android.R.color.holo_red_light),
+                Typeface.SANS_SERIF, CarouselPicker.TextItem.FontStyle.NORMAL));
+        textItems.add(new CarouselPicker.TextItem("hi", 20,
+                Typeface.SERIF, CarouselPicker.TextItem.FontStyle.ITALIC));
         textItems.add(new CarouselPicker.TextItem("hi", 20));
         CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(this, textItems, 0);
         textCarousel.setAdapter(textAdapter);
+        // set default color
+        textAdapter.setTextColor(getResources().getColor(android.R.color.holo_green_light));
 
         List<CarouselPicker.PickerItem> mixItems = new ArrayList<>();
         mixItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
