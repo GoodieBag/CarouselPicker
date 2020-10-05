@@ -51,6 +51,10 @@ public class CarouselPicker extends ViewPager {
             mode = Mode.values()[array.getInteger(R.styleable.CarouselPicker_orientation, 0)];
             array.recycle();
         }
+
+        if (mode == Mode.VERTICAL) {
+            setOverScrollMode(OVER_SCROLL_NEVER);
+        }
     }
 
     private void init() {
