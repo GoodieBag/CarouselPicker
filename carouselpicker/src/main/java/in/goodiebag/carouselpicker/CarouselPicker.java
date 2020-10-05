@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -150,7 +151,7 @@ public class CarouselPicker extends ViewPager {
                     }
 
                     if (textItem.getTextSize() != 0) {
-                        tv.setTextSize(dpToPx(((TextItem) pickerItem).getTextSize()));
+                        tv.setTextSize(dpToPx(textItem.getTextSize()));
                     }
 
                     if (textItem.getFont() != null && textItem.getFontStyle() != null) {
@@ -182,8 +183,8 @@ public class CarouselPicker extends ViewPager {
         }
 
         private int dpToPx(int dp) {
-            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-            return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics));
         }
     }
 
