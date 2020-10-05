@@ -2,10 +2,18 @@
 <resources>
     <declare-styleable name="CarouselPicker">
         <attr name="items_visible" />
+        <attr name="orientation" />
     </declare-styleable>
     <attr name="items_visible" format="enum">
         <enum name="three" value="3" />
         <enum name="five" value="5" />
         <enum name="seven" value="7" />
+        <enum name="nine" value="9" />
+        <enum name="eleven" value="11" />
+        <enum name="thirteen" value="13" />
+    </attr>
+    <attr name="orientation" format="enum">
+        <enum name="horizontal" value="0" />
+        <enum name="vertical" value="1" />
     </attr>
 </resources>

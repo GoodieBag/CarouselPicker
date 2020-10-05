@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#CCC"
-        app:items_visible="three" />
+        app:orientation="vertical"
+        app:items_visible="seven" />
 
     <in.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/textCarousel"

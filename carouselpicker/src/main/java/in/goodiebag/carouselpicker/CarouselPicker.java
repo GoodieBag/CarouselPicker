@@ -2,18 +2,19 @@ package in.goodiebag.carouselpicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,14 @@ import java.util.List;
  */
 
 public class CarouselPicker extends ViewPager {
+    public enum Mode {
+        HORIZONTAL,
+        VERTICAL
+    }
+
     private int itemsVisible = 3;
     private float divisor;
+    private Mode mode = Mode.HORIZONTAL;
 
     public CarouselPicker(Context context) {
         this(context, null);
@@ -40,54 +47,40 @@ public class CarouselPicker extends ViewPager {
         if (attrs != null) {
             final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CarouselPicker);
             itemsVisible = array.getInteger(R.styleable.CarouselPicker_items_visible, itemsVisible);
-            switch (itemsVisible) {
-                case 3:
-                    TypedValue threeValue = new TypedValue();
-                    getResources().getValue(R.dimen.three_items, threeValue, true);
-                    divisor = threeValue.getFloat();
-                    break;
-                case 5:
-                    TypedValue fiveValue = new TypedValue();
-                    getResources().getValue(R.dimen.five_items, fiveValue, true);
-                    divisor = fiveValue.getFloat();
-                    break;
-                case 7:
-                    TypedValue sevenValue = new TypedValue();
-                    getResources().getValue(R.dimen.seven_items, sevenValue, true);
-                    divisor = sevenValue.getFloat();
-                    break;
-                default:
-                    divisor = 3;
-                    break;
-            }
+            divisor = 1 + ((float) 1 / (itemsVisible - 1));
+            mode = Mode.values()[array.getInteger(R.styleable.CarouselPicker_orientation, 0)];
             array.recycle();
         }
     }
 
     private void init() {
-        this.setPageTransformer(false, new CustomPageTransformer(getContext()));
+        this.setPageTransformer(false, new CustomPageTransformer(getContext(), mode));
         this.setClipChildren(false);
         this.setFadingEdgeLength(0);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (mode == Mode.HORIZONTAL || MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
+            // Wrap the height
+            int height = 0;
+            for (int i = 0; i < getChildCount(); i++) {
+                View child = getChildAt(i);
+                child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+                int h = child.getMeasuredHeight();
+                if (h > height) height = h;
+            }
 
-        int height = 0;
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-            int h = child.getMeasuredHeight();
-            if (h > height) height = h;
+            if (mode == Mode.HORIZONTAL) {
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            } else {
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(height * itemsVisible, MeasureSpec.EXACTLY);
+            }
         }
-
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int w = getMeasuredWidth();
         setPageMargin((int) (-w / divisor));
-
-
     }
 
     @Override
@@ -247,5 +240,42 @@ public class CarouselPicker extends ViewPager {
         }
     }
 
+    private MotionEvent swapXY(MotionEvent ev) {
+        float width = getWidth();
+        float height = getHeight();
 
+        float newX = (ev.getY() / height) * width;
+        float newY = (ev.getX() / width) * height;
+
+        ev.setLocation(newX, newY);
+
+        return ev;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev){
+        boolean intercepted;
+
+        if (mode == Mode.VERTICAL) {
+            intercepted = super.onInterceptTouchEvent(swapXY(ev));
+            swapXY(ev); // return touch coordinates to original reference frame for any child views
+        } else {
+            intercepted = super.onInterceptTouchEvent(ev);
+        }
+
+        return intercepted;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        boolean handled;
+
+        if (mode == Mode.VERTICAL) {
+            handled = super.onTouchEvent(swapXY(ev));
+        } else {
+            handled = super.onTouchEvent(ev);
+        }
+
+        return handled;
+    }
 }
