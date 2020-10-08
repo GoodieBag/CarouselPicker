@@ -34,6 +34,7 @@ public class CarouselPicker extends ViewPager {
 
     private int itemsVisible = 3;
     private float divisor;
+    private float opacity;
     private Mode mode = Mode.HORIZONTAL;
 
     public CarouselPicker(Context context) {
@@ -44,6 +45,19 @@ public class CarouselPicker extends ViewPager {
         super(context, attrs);
         initAttributes(context, attrs);
         init();
+
+        addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                ((CarouselViewAdapter)getAdapter()).applyOpacity(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
     }
 
     private void initAttributes(Context context, AttributeSet attrs) {
@@ -52,6 +66,7 @@ public class CarouselPicker extends ViewPager {
             itemsVisible = array.getInteger(R.styleable.CarouselPicker_items_visible, itemsVisible);
             divisor = 1 + ((float) 1 / (itemsVisible - 1));
             mode = Mode.values()[array.getInteger(R.styleable.CarouselPicker_orientation, 0)];
+            opacity = array.getFloat(R.styleable.CarouselPicker_unselected_item_opacity, 1);
             array.recycle();
         }
 
@@ -64,6 +79,18 @@ public class CarouselPicker extends ViewPager {
         this.setPageTransformer(false, new CustomPageTransformer(getContext(), mode));
         this.setClipChildren(false);
         this.setFadingEdgeLength(0);
+    }
+
+    @Override
+    public void setCurrentItem(int position) {
+        super.setCurrentItem(position);
+        ((CarouselViewAdapter)getAdapter()).applyOpacity(position);
+    }
+
+    @Override
+    public void setCurrentItem(int position, boolean smoothScroll) {
+        super.setCurrentItem(position, smoothScroll);
+        ((CarouselViewAdapter)getAdapter()).applyOpacity(position);
     }
 
     @Override
@@ -94,13 +121,26 @@ public class CarouselPicker extends ViewPager {
     public void setAdapter(PagerAdapter adapter) {
         super.setAdapter(adapter);
         this.setOffscreenPageLimit(adapter.getCount());
+
+        CarouselViewAdapter carouselAdapter = ((CarouselViewAdapter)adapter);
+        carouselAdapter.setOpactiy(opacity);
+        carouselAdapter.setOnPageClickedListener(new CarouselViewAdapter.OnPageClickedListener() {
+            @Override
+            public void onPageClicked(int position) {
+                setCurrentItem(position);
+            }
+        });
     }
 
     public static class CarouselViewAdapter extends PagerAdapter {
-        List<PickerItem> items;
-        Context context;
-        int drawable;
-        int textColor = NOT_SPECIFIED;
+        private List<PickerItem> items;
+        private Context context;
+        private int drawable;
+        private int textColor = NOT_SPECIFIED;
+        private int lastSelected;
+        private int currentSelection = 0;
+        private float opacity = 1;
+        private OnPageClickedListener onPageClickedListener;
 
         public CarouselViewAdapter(Context context, List<PickerItem> items, int drawable) {
             this.context = context;
@@ -111,54 +151,77 @@ public class CarouselPicker extends ViewPager {
             }
         }
 
-
         @Override
         public int getCount() {
             return items.size();
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             View view = LayoutInflater.from(context).inflate(this.drawable, null);
             ImageView iv = view.findViewById(R.id.iv);
             TextView tv = view.findViewById(R.id.tv);
+
             PickerItem pickerItem = items.get(position);
-            iv.setVisibility(VISIBLE);
+
+            pickerItem.setView(view);
+            if (position != currentSelection) {
+                view.setAlpha(opacity);
+            }
+
             if (pickerItem.hasDrawable()) {
                 iv.setVisibility(VISIBLE);
                 tv.setVisibility(GONE);
+
                 iv.setImageResource(pickerItem.getDrawable());
 
                 if (pickerItem.getColor() != NOT_SPECIFIED) {
                     iv.setColorFilter(pickerItem.getColor());
                 }
-            } else {
-                if (pickerItem.getText() != null) {
-                    iv.setVisibility(GONE);
-                    tv.setVisibility(VISIBLE);
 
-                    TextItem textItem = (TextItem) pickerItem;
-                    tv.setText(textItem.getText());
-
-                    int color = textColor;
-
-                    if (textItem.getColor() != NOT_SPECIFIED) {
-                        color = textItem.getColor();
+                iv.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onPageClickedListener != null) {
+                            onPageClickedListener.onPageClicked(position);
+                        }
                     }
+                });
+            } else if (pickerItem.getText() != null) {
+                iv.setVisibility(GONE);
+                tv.setVisibility(VISIBLE);
 
-                    if (color != NOT_SPECIFIED) {
-                        tv.setTextColor(color);
-                    }
+                TextItem textItem = (TextItem) pickerItem;
+                tv.setText(textItem.getText());
 
-                    if (textItem.getTextSize() != 0) {
-                        tv.setTextSize(dpToPx(textItem.getTextSize()));
-                    }
+                int color = textColor;
 
-                    if (textItem.getFont() != null && textItem.getFontStyle() != null) {
-                        tv.setTypeface(textItem.getFont(), textItem.getFontStyle().ordinal());
-                    }
+                if (textItem.getColor() != NOT_SPECIFIED) {
+                    color = textItem.getColor();
                 }
+
+                if (color != NOT_SPECIFIED) {
+                    tv.setTextColor(color);
+                }
+
+                if (textItem.getTextSize() != 0) {
+                    tv.setTextSize(dpToPx(textItem.getTextSize()));
+                }
+
+                if (textItem.getFont() != null && textItem.getFontStyle() != null) {
+                    tv.setTypeface(textItem.getFont(), textItem.getFontStyle().ordinal());
+                }
+
+                tv.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onPageClickedListener != null) {
+                            onPageClickedListener.onPageClicked(position);
+                        }
+                    }
+                });
             }
+
             view.setTag(position);
             container.addView(view);
             return view;
@@ -182,9 +245,35 @@ public class CarouselPicker extends ViewPager {
             return (view == object);
         }
 
+        private void setOpactiy(float opactiy) {
+            opactiy = Math.max(opactiy, 0);
+            opactiy = Math.min(opactiy, 1);
+            this.opacity = opactiy;
+        }
+
+        private void applyOpacity(int position) {
+            if (lastSelected < items.size()) {
+                PickerItem previous = items.get(lastSelected);
+                previous.getView().setAlpha(opacity);
+            }
+
+            PickerItem current = items.get(position);
+            current.getView().setAlpha(1);
+
+            lastSelected = position;
+        }
+
+        public void setOnPageClickedListener(OnPageClickedListener listener) {
+            this.onPageClickedListener = listener;
+        }
+
         private int dpToPx(int dp) {
             DisplayMetrics metrics = context.getResources().getDisplayMetrics();
             return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics));
+        }
+
+        interface OnPageClickedListener {
+            void onPageClicked(int position);
         }
     }
 
@@ -202,6 +291,10 @@ public class CarouselPicker extends ViewPager {
 
         @ColorInt
         int getColor();
+
+        void setView(View view);
+
+        View getView();
     }
 
     /**
@@ -220,6 +313,7 @@ public class CarouselPicker extends ViewPager {
         private int color = NOT_SPECIFIED;
         private Typeface font;
         private FontStyle fontStyle;
+        private View view;
 
         public TextItem(String text, int textSize) {
             this.text = text;
@@ -260,6 +354,12 @@ public class CarouselPicker extends ViewPager {
 
         @Override
         public int getColor() { return color; }
+
+        @Override
+        public void setView(View view) { this.view = view; }
+
+        @Override
+        public View getView() { return this.view; }
     }
 
     /**
@@ -269,6 +369,7 @@ public class CarouselPicker extends ViewPager {
         @DrawableRes
         private int drawable;
         private int color = NOT_SPECIFIED;
+        private View view;
 
         public DrawableItem(@DrawableRes int drawable) {
             this.drawable = drawable;
@@ -296,6 +397,12 @@ public class CarouselPicker extends ViewPager {
         public boolean hasDrawable() {
             return true;
         }
+
+        @Override
+        public void setView(View view) { this.view = view; }
+
+        @Override
+        public View getView() { return this.view; }
     }
 
     private MotionEvent swapXY(MotionEvent ev) {
