@@ -3,6 +3,7 @@ package in.goodiebag.carouselpicker;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -35,6 +36,7 @@ public class CarouselPicker extends ViewPager {
     private int itemsVisible = 3;
     private float divisor;
     private float opacity;
+    private int textMaxLines;
     private Mode mode = Mode.HORIZONTAL;
 
     public CarouselPicker(Context context) {
@@ -67,6 +69,7 @@ public class CarouselPicker extends ViewPager {
             divisor = 1 + ((float) 1 / (itemsVisible - 1));
             mode = Mode.values()[array.getInteger(R.styleable.CarouselPicker_orientation, 0)];
             opacity = array.getFloat(R.styleable.CarouselPicker_unselected_item_opacity, 1);
+            textMaxLines = array.getInt(R.styleable.CarouselPicker_text_max_lines, 0);
             array.recycle();
         }
 
@@ -124,6 +127,7 @@ public class CarouselPicker extends ViewPager {
 
         CarouselViewAdapter carouselAdapter = ((CarouselViewAdapter)adapter);
         carouselAdapter.setOpactiy(opacity);
+        carouselAdapter.setTextMaxLines(textMaxLines);
         carouselAdapter.setOnPageClickedListener(new CarouselViewAdapter.OnPageClickedListener() {
             @Override
             public void onPageClicked(int position) {
@@ -141,6 +145,7 @@ public class CarouselPicker extends ViewPager {
         private int currentSelection = 0;
         private float opacity = 1;
         private OnPageClickedListener onPageClickedListener;
+        private int textMaxLines;
 
         public CarouselViewAdapter(Context context, List<PickerItem> items, int drawable) {
             this.context = context;
@@ -193,6 +198,11 @@ public class CarouselPicker extends ViewPager {
 
                 TextItem textItem = (TextItem) pickerItem;
                 tv.setText(textItem.getText());
+
+                if (textMaxLines > 0) {
+                    tv.setMaxLines(textMaxLines);
+                    tv.setEllipsize(TextUtils.TruncateAt.END);
+                }
 
                 int color = textColor;
 
@@ -270,6 +280,10 @@ public class CarouselPicker extends ViewPager {
         private int dpToPx(int dp) {
             DisplayMetrics metrics = context.getResources().getDisplayMetrics();
             return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics));
+        }
+
+        public void setTextMaxLines(int textMaxLines) {
+            this.textMaxLines = textMaxLines;
         }
 
         interface OnPageClickedListener {

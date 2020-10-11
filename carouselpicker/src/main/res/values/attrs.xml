@@ -4,6 +4,7 @@
         <attr name="items_visible" />
         <attr name="orientation" />
         <attr name="unselected_item_opacity" />
+        <attr name="text_max_lines" />
     </declare-styleable>
     <attr name="items_visible" format="enum">
         <enum name="three" value="3" />
@@ -18,4 +19,5 @@
         <enum name="vertical" value="1" />
     </attr>
     <attr name="unselected_item_opacity" format="float" />
+    <attr name="text_max_lines" format="integer" />
 </resources>

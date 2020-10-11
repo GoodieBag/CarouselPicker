@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         textItems.add(new CarouselPicker.TextItem("hi", 20,
                 getResources().getColor(android.R.color.holo_blue_bright), Typeface.MONOSPACE,
                 CarouselPicker.TextItem.FontStyle.BOLD_ITALIC));
-        textItems.add(new CarouselPicker.TextItem("hi", 20,
+        textItems.add(new CarouselPicker.TextItem("hi, welcome to the carousel picker", 20,
                 getResources().getColor(android.R.color.holo_red_light),
                 Typeface.SANS_SERIF, CarouselPicker.TextItem.FontStyle.NORMAL));
         textItems.add(new CarouselPicker.TextItem("hi", 20,
