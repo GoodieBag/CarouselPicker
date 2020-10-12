@@ -141,8 +141,7 @@ public class CarouselPicker extends ViewPager {
         private Context context;
         private int drawable;
         private int textColor = NOT_SPECIFIED;
-        private int lastSelected;
-        private int currentSelection = 0;
+        private int lastSelected = 0;
         private float opacity = 1;
         private OnPageClickedListener onPageClickedListener;
         private int textMaxLines;
@@ -170,7 +169,7 @@ public class CarouselPicker extends ViewPager {
             PickerItem pickerItem = items.get(position);
 
             pickerItem.setView(view);
-            if (position != currentSelection) {
+            if (position != lastSelected) {
                 view.setAlpha(opacity);
             }
 
@@ -262,7 +261,7 @@ public class CarouselPicker extends ViewPager {
         }
 
         private void applyOpacity(int position) {
-            if (lastSelected > -1 && lastSelected < items.size()) {
+            if (lastSelected < items.size()) {
                 PickerItem previous = items.get(lastSelected);
 
                 if (previous.getView() != null) {
