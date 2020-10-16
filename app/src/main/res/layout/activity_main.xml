@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#CCC"
-        app:items_visible="three" />
+        app:items_visible="three"
+        app:unselected_item_opacity="0.5"/>
 
     <in.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/textCarousel"
@@ -25,7 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#CCC"
-        app:items_visible="three" />
+        app:items_visible="three"
+        app:orientation="vertical"
+        app:unselected_item_opacity="0.5"
+        app:text_max_lines="1"/>
 
     <in.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/mixCarousel"
