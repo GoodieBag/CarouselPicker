@@ -21,11 +21,11 @@ android {
         }
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '11'
     }
     compileOptions {
-        sourceCompatibility 17
-        targetCompatibility 17
+        sourceCompatibility 11
+        targetCompatibility 11
     }
 }
 
