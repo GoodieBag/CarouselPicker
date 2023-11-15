@@ -74,6 +74,9 @@ textItems.add(new CarouselPicker.TextItem("hi", 20));
 CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(this, textItems, 0);
 carouselPicker.setAdapter(textAdapter);
 
+textAdapter.selectedItemTextColor = Color.GREEN
+textAdapter.selectedIndex = 1
+
 //Case 3 : To populate the picker with both images and text
 List<CarouselPicker.PickerItem> mixItems = new ArrayList<>();
 mixItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
@@ -88,7 +91,7 @@ carouselPicker.setAdapter(mixAdapter);
 - Text color for text items can be set using ```adapter.setTextColor(colorInt)```
 
 ## Listeners :
-```java
+```kotlin
 carouselPicker.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
 	override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 	}
