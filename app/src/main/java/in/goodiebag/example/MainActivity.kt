@@ -7,7 +7,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import `in`.goodiebag.carouselpicker.CarouselPicker
+import com.goodiebag.carouselpicker.CarouselPicker
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 
 class MainActivity : AppCompatActivity() {

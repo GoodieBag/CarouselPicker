@@ -3,7 +3,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdk 34
-    namespace "in.goodiebag.carouselpicker"
+    namespace "com.goodiebag.carouselpicker"
 
     defaultConfig {
         minSdkVersion 15

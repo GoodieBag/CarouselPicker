@@ -21,7 +21,7 @@ allprojects {
 Add the dependency : 
 ```java
 dependencies {
-	        implementation 'com.github.GoodieBag:CarouselPicker:v1.2'
+	        implementation 'com.github.GoodieBag:CarouselPicker:v2.0'
 		// v1.2 is the latest release with vertical orientation and font styling options. 
 		// For the previous stable release use v1.1
 	}
@@ -38,7 +38,7 @@ Sync the gradle and that's it! :+1:
 ### XML : 
 
 ```xml
-<in.goodiebag.carouselpicker.CarouselPicker
+<com.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/carousel"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"

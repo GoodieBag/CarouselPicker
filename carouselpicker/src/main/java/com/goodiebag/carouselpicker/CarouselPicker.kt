@@ -1,4 +1,4 @@
-package `in`.goodiebag.carouselpicker
+package com.goodiebag.carouselpicker
 
 import android.annotation.SuppressLint
 import android.content.Context

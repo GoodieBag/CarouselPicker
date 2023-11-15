@@ -1,4 +1,4 @@
-package `in`.goodiebag.carouselpicker
+package com.goodiebag.carouselpicker
 
 import kotlin.math.abs
 import android.view.View
