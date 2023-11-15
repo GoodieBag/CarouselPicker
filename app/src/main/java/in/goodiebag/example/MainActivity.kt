@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity() {
         mixItems.add(CarouselPicker.TextItem("hi", 20))
         val mixAdapter = CarouselPicker.CarouselViewAdapter(this, mixItems, 0)
         mixAdapter.textColor = getResources().getColor(R.color.colorPrimary)
-        mixAdapter.selectedItemTextColor = Color.RED
+        mixAdapter.selectedItemTextColor = getResources().getColor(R.color.colorAccent)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mixAdapter.selectedItemTintColor = Color.RED
+            mixAdapter.selectedItemTintColor = getResources().getColor(R.color.colorAccent)
         }
         mixCarousel.setAdapter(mixAdapter)
         imageCarousel.addOnPageChangeListener(object : OnPageChangeListener {

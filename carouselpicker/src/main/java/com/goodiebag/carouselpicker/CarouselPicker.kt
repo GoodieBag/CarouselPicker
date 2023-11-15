@@ -179,10 +179,16 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
             get() {
                 return lastSelected
             }
+
+        @ColorInt
         var selectedItemTextColor: Int? = null
+
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        @ColorInt
         var selectedItemTintColor: Int? = null
+
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        @ColorInt
         var tintColor: Int? = null
 
         init {

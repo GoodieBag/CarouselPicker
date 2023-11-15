@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#CCC"
+        app:selected_item_text_color="@android:color/holo_orange_light"
         app:items_visible="three" />
 
     <TextView
