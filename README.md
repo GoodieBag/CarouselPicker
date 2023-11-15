@@ -1,6 +1,7 @@
 # Carousel Picker
 
-![alt downloads](https://img.shields.io/jitpack/dm/github/GoodieBag/CarouselPicker.svg)
+[![Download](https://jitpack.io/v/Husseinhj/KotlinCarouselPicker.svg)](https://jitpack.io/#Husseinhj/KotlinCarouselPicker)
+
 
  A Carousel picker library for android which supports both text and icons . :pouting_cat:
  
@@ -12,19 +13,17 @@
 Add this in your root build.gradle file at the end of repositories:
 ```java
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 Add the dependency : 
 ```java
 dependencies {
-	        implementation 'com.github.GoodieBag:CarouselPicker:v2.0'
-		// v1.2 is the latest release with vertical orientation and font styling options. 
-		// For the previous stable release use v1.1
-	}
+	implementation 'com.github.Husseinhj:KotlinCarouselPicker:2.0.2'
+}
 ```
 Sync the gradle and that's it! :+1:
 
@@ -75,6 +74,9 @@ textItems.add(new CarouselPicker.TextItem("hi", 20));
 CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(this, textItems, 0);
 carouselPicker.setAdapter(textAdapter);
 
+textAdapter.selectedItemTextColor = Color.GREEN
+textAdapter.selectedIndex = 1
+
 //Case 3 : To populate the picker with both images and text
 List<CarouselPicker.PickerItem> mixItems = new ArrayList<>();
 mixItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
@@ -89,23 +91,18 @@ carouselPicker.setAdapter(mixAdapter);
 - Text color for text items can be set using ```adapter.setTextColor(colorInt)```
 
 ## Listeners :
-```java
-carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+```kotlin
+carouselPicker.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+	override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+	}
 
-            }
+	override fun onPageSelected(position: Int) {
+		//position of the selected item
+	}
 
-            @Override
-            public void onPageSelected(int position) {
-                //position of the selected item
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+	override fun onPageScrollStateChanged(state: Int) {
+	}
+})
 ```
 
 ## LICENSE : 
