@@ -1,112 +1,131 @@
-package in.goodiebag.example;
+package `in`.goodiebag.example
 
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.widget.TextView;
+import android.graphics.Color
+import android.os.Bundle
+import android.widget.TextView
+import android.graphics.Typeface
+import android.os.Build
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import `in`.goodiebag.carouselpicker.CarouselPicker
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+class MainActivity : AppCompatActivity() {
 
-import java.util.ArrayList;
-import java.util.List;
+    private lateinit var tvSelected: TextView
+    private lateinit var mixCarousel: CarouselPicker
+    private lateinit var imageCarousel: CarouselPicker
+    private lateinit var textCarousel: CarouselPicker
 
-import in.goodiebag.carouselpicker.CarouselPicker;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-public class MainActivity extends AppCompatActivity {
-    CarouselPicker imageCarousel, textCarousel, mixCarousel;
-    TextView tvSelected;
+        imageCarousel = findViewById(R.id.imageCarousel)
+        textCarousel = findViewById(R.id.textCarousel)
+        mixCarousel = findViewById(R.id.mixCarousel)
+        tvSelected = findViewById(R.id.tvSelectedItem)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        imageCarousel = findViewById(R.id.imageCarousel);
-        textCarousel = findViewById(R.id.textCarousel);
-        mixCarousel = findViewById(R.id.mixCarousel);
-        tvSelected = findViewById(R.id.tvSelectedItem);
+        val imageItems: MutableList<CarouselPicker.PickerItem> = ArrayList()
+        imageItems.add(CarouselPicker.DrawableItem(R.drawable.i1))
+        imageItems.add(
+            CarouselPicker.DrawableItem(
+                R.drawable.i2,
+                getResources().getColor(android.R.color.holo_red_light)
+            )
+        )
 
-        List<CarouselPicker.PickerItem> imageItems = new ArrayList<>();
-        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
-        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i2, getResources().getColor(android.R.color.holo_red_light)));
-        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i3));
-        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.i4));
-        CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, imageItems, 0);
-        imageCarousel.setAdapter(imageAdapter);
+        imageItems.add(CarouselPicker.DrawableItem(R.drawable.i3))
+        imageItems.add(CarouselPicker.DrawableItem(R.drawable.i4))
 
-        List<CarouselPicker.PickerItem> textItems = new ArrayList<>();
-        textItems.add(new CarouselPicker.TextItem("hi", 20,
+        val imageAdapter = CarouselPicker.CarouselViewAdapter(this, imageItems, 0)
+        imageCarousel.setAdapter(imageAdapter)
+        val textItems: MutableList<CarouselPicker.PickerItem> = ArrayList()
+        textItems.add(
+            CarouselPicker.TextItem(
+                "hi", 20,
                 getResources().getColor(android.R.color.holo_blue_bright), Typeface.MONOSPACE,
-                CarouselPicker.TextItem.FontStyle.BOLD_ITALIC));
-        textItems.add(new CarouselPicker.TextItem("hi, welcome to the carousel picker", 20,
+                CarouselPicker.TextItem.FontStyle.BOLD_ITALIC
+            )
+        )
+        textItems.add(
+            CarouselPicker.TextItem(
+                "hi, welcome to the carousel picker", 20,
                 getResources().getColor(android.R.color.holo_red_light),
-                Typeface.SANS_SERIF, CarouselPicker.TextItem.FontStyle.NORMAL));
-        textItems.add(new CarouselPicker.TextItem("hi", 20,
-                Typeface.SERIF, CarouselPicker.TextItem.FontStyle.ITALIC));
-        textItems.add(new CarouselPicker.TextItem("hi", 20));
-        CarouselPicker.CarouselViewAdapter textAdapter = new CarouselPicker.CarouselViewAdapter(this, textItems, 0);
-        textCarousel.setAdapter(textAdapter);
+                Typeface.SANS_SERIF, CarouselPicker.TextItem.FontStyle.NORMAL
+            )
+        )
+        textItems.add(
+            CarouselPicker.TextItem(
+                "hi", 20,
+                Typeface.SERIF, CarouselPicker.TextItem.FontStyle.ITALIC
+            )
+        )
+        textItems.add(CarouselPicker.TextItem("hi", 20))
+        val textAdapter = CarouselPicker.CarouselViewAdapter(this, textItems, 0)
+        textCarousel.setAdapter(textAdapter)
         // set default color
-        textAdapter.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+        textAdapter.textColor = getResources().getColor(android.R.color.holo_green_light)
+        textAdapter.selectedItemTextColor = Color.GREEN
+        textAdapter.selectedIndex = 1
 
-        List<CarouselPicker.PickerItem> mixItems = new ArrayList<>();
-        mixItems.add(new CarouselPicker.DrawableItem(R.drawable.i1));
-        mixItems.add(new CarouselPicker.TextItem("hi", 20));
-        mixItems.add(new CarouselPicker.DrawableItem(R.drawable.i2));
-        mixItems.add(new CarouselPicker.TextItem("hi", 20));
-
-        CarouselPicker.CarouselViewAdapter mixAdapter = new CarouselPicker.CarouselViewAdapter(this, mixItems, 0);
-        mixAdapter.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mixCarousel.setAdapter(mixAdapter);
-
-        imageCarousel.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        val mixItems: MutableList<CarouselPicker.PickerItem> = ArrayList()
+        mixItems.add(CarouselPicker.DrawableItem(R.drawable.i1))
+        mixItems.add(CarouselPicker.TextItem("hi", 20))
+        mixItems.add(CarouselPicker.DrawableItem(R.drawable.i2))
+        mixItems.add(CarouselPicker.TextItem("hi", 20))
+        val mixAdapter = CarouselPicker.CarouselViewAdapter(this, mixItems, 0)
+        mixAdapter.textColor = getResources().getColor(R.color.colorPrimary)
+        mixAdapter.selectedItemTextColor = Color.RED
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mixAdapter.selectedItemTintColor = Color.RED
+        }
+        mixCarousel.setAdapter(mixAdapter)
+        imageCarousel.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int,
+            ) {
             }
 
-            @Override
-            public void onPageSelected(int position) {
-                tvSelected.setText("Selected item in image carousel is  : "+position);
+            override fun onPageSelected(position: Int) {
+                tvSelected.setText("Selected item in image carousel is  : $position")
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        textCarousel.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+        textCarousel.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int,
+            ) {
             }
 
-            @Override
-            public void onPageSelected(int position) {
-                tvSelected.setText("Selected item in text carousel is  : "+position);
+            override fun onPageSelected(position: Int) {
+                tvSelected.setText("Selected item in text carousel is  : $position")
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        mixCarousel.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+        mixCarousel.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int,
+            ) {
             }
 
-            @Override
-            public void onPageSelected(int position) {
-                tvSelected.setText("Selected item in mix carousel is  : "+position);
+            override fun onPageSelected(position: Int) {
+                tvSelected.setText("Selected item in mix carousel is  : $position")
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
 
-            }
-        });
+        findViewById<Button>(R.id.btJump).setOnClickListener {
+            mixAdapter.selectedIndex = 2
+        }
     }
 }

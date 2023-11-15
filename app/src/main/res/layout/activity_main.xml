@@ -45,4 +45,14 @@
         android:layout_below="@id/mixCarousel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btJump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSelectedItem"
+
+        android:layout_centerHorizontal="true"
+        android:text="Jump to item number 2"
+        />
 </RelativeLayout>
