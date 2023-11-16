@@ -171,9 +171,6 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
         var selectedIndex: Int = 0
             set(value) {
                 field = value
-                lastSelected = field
-
-                applyOpacity(field)
                 onPageClickedListener!!.onPageClicked(field)
             }
             get() {
@@ -260,7 +257,6 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
             container.addView(view)
 
             if (selectedIndex == position) {
-                applyOpacity(position)
                 onPageClickedListener!!.onPageClicked(position)
             }
 
