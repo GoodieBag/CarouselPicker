@@ -8,7 +8,6 @@ import android.graphics.Typeface
 import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -156,7 +155,6 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     class CarouselViewAdapter(
-        private val context: Context,
         private val items: List<PickerItem>,
         private var drawable: Int = R.layout.page
     ) : PagerAdapter() {
@@ -242,7 +240,7 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
                 }
 
                 if (textItem.textSize != 0) {
-                    tv.textSize = numberToSp(textItem.textSize).toFloat()
+                    tv.textSize = textItem.textSize.toFloat()
                 }
                 if (textItem.font != null && textItem.fontStyle != null) {
                     tv.setTypeface(textItem.font, textItem.fontStyle!!.ordinal)
@@ -329,17 +327,6 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
             onPageClickedListener = listener
         }
 
-        private fun numberToSp(dp: Int): Int {
-            val metrics = context.resources.displayMetrics
-            return Math.round(
-                TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_SP,
-                    dp.toFloat(),
-                    metrics
-                )
-            )
-        }
-
         fun setTextMaxLines(textMaxLines: Int) {
             this.textMaxLines = textMaxLines
         }
@@ -371,6 +358,7 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
      * A PickerItem which supports text.
      */
     class TextItem(override val text: String, val textSize: Int) : PickerItem {
+        @Suppress("unused")
         enum class FontStyle {
             NORMAL,
             BOLD,
