@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         imageItems.add(CarouselPicker.DrawableItem(R.drawable.i3))
         imageItems.add(CarouselPicker.DrawableItem(R.drawable.i4))
 
-        val imageAdapter = CarouselPicker.CarouselViewAdapter(this, imageItems, 0)
+        val imageAdapter = CarouselPicker.CarouselViewAdapter(imageItems, 0)
         imageCarousel.setAdapter(imageAdapter)
         val textItems: MutableList<CarouselPicker.PickerItem> = ArrayList()
         textItems.add(
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         textItems.add(CarouselPicker.TextItem("hi", 20))
-        val textAdapter = CarouselPicker.CarouselViewAdapter(this, textItems, 0)
+        val textAdapter = CarouselPicker.CarouselViewAdapter(textItems, 0)
         textCarousel.setAdapter(textAdapter)
         // set default color
         textAdapter.textColor = getResources().getColor(android.R.color.holo_green_light)
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         mixItems.add(CarouselPicker.TextItem("hi", 20))
         mixItems.add(CarouselPicker.DrawableItem(R.drawable.i2))
         mixItems.add(CarouselPicker.TextItem("hi", 20))
-        val mixAdapter = CarouselPicker.CarouselViewAdapter(this, mixItems, 0)
+        val mixAdapter = CarouselPicker.CarouselViewAdapter(mixItems, 0)
         mixAdapter.textColor = getResources().getColor(R.color.colorPrimary)
         mixAdapter.selectedItemTextColor = getResources().getColor(R.color.colorAccent)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
