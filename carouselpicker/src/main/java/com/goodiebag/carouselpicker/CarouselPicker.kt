@@ -242,7 +242,7 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
                 }
 
                 if (textItem.textSize != 0) {
-                    tv.textSize = dpToPx(textItem.textSize).toFloat()
+                    tv.textSize = numberToMp(textItem.textSize).toFloat()
                 }
                 if (textItem.font != null && textItem.fontStyle != null) {
                     tv.setTypeface(textItem.font, textItem.fontStyle!!.ordinal)
@@ -329,11 +329,11 @@ class CarouselPicker @JvmOverloads constructor(context: Context, attrs: Attribut
             onPageClickedListener = listener
         }
 
-        private fun dpToPx(dp: Int): Int {
+        private fun numberToMp(dp: Int): Int {
             val metrics = context.resources.displayMetrics
             return Math.round(
                 TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
+                    TypedValue.COMPLEX_UNIT_SP,
                     dp.toFloat(),
                     metrics
                 )
