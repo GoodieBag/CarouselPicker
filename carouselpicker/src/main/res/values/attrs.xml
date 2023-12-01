@@ -5,6 +5,9 @@
         <attr name="orientation" />
         <attr name="unselected_item_opacity" />
         <attr name="text_max_lines" />
+        <attr name="selected_item_text_color" />
+        <attr name="selected_item_tint_color" />
+        <attr name="tint_color" />
     </declare-styleable>
     <attr name="items_visible" format="enum">
         <enum name="three" value="3" />
@@ -20,4 +23,7 @@
     </attr>
     <attr name="unselected_item_opacity" format="float" />
     <attr name="text_max_lines" format="integer" />
+    <attr name="selected_item_text_color" format="color|reference" />
+    <attr name="selected_item_tint_color" format="color|reference" />
+    <attr name="tint_color" format="color|reference" />
 </resources>

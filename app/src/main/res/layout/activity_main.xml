@@ -9,7 +9,7 @@
     android:gravity="center"
     tools:context="in.goodiebag.example.MainActivity">
 
-    <in.goodiebag.carouselpicker.CarouselPicker
+    <com.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/imageCarousel"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
@@ -19,7 +19,7 @@
         app:items_visible="three"
         app:unselected_item_opacity="0.5"/>
 
-    <in.goodiebag.carouselpicker.CarouselPicker
+    <com.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/textCarousel"
         android:layout_below="@id/imageCarousel"
         android:layout_marginBottom="20dp"
@@ -31,13 +31,14 @@
         app:unselected_item_opacity="0.5"
         app:text_max_lines="1"/>
 
-    <in.goodiebag.carouselpicker.CarouselPicker
+    <com.goodiebag.carouselpicker.CarouselPicker
         android:id="@+id/mixCarousel"
         android:layout_below="@id/textCarousel"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#CCC"
+        app:selected_item_text_color="@android:color/holo_orange_light"
         app:items_visible="three" />
 
     <TextView
@@ -45,4 +46,14 @@
         android:layout_below="@id/mixCarousel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btJump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSelectedItem"
+
+        android:layout_centerHorizontal="true"
+        android:text="Jump to item number 2"
+        />
 </RelativeLayout>
